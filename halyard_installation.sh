@@ -29,7 +29,15 @@ else
     /usr/local/bin/hal config storage edit --type gcs
 fi
 
-
+CONTEXT=$(kubectl config current-context)
+kubectl apply --context $CONTEXT -f https://spinnaker.io/downloads/kubernetes/service-account.yml
+TOKEN=$(kubectl get secret --context $CONTEXT $(kubectl get serviceaccount spinnaker-service-account --context $CONTEXT -n spinnaker -o jsonpath='{.secrets[0].name}') -n spinnaker -o jsonpath='{.data.token}' | base64 --decode)
+kubectl config set-credentials ${CONTEXT}-token-user --token $TOKEN
+kubectl config set-context $CONTEXT --user ${CONTEXT}-token-user
+hal config provider kubernetes enable
+CONTEXT=$(kubectl config current-context)
+hal config provider kubernetes account add my-k8s-account     --context $CONTEXT
+hal config features edit --artifacts true
 SPINNAKER_VERSION=1.26.6
 
 set -e
@@ -42,4 +50,4 @@ fi
 
 hal config version edit --version $SPINNAKER_VERSION
 
-hal deploy apply
+#hal deploy apply
