@@ -81,3 +81,28 @@ hal config version edit --version $VERSION
 ```bash
 hal deploy apply
 ```
+
+## Post Installation Steps
+
+- check all Spinnaker microservices running in spinnaker namespace:
+```bash
+kubectl get all -n spinnaker
+```
+
+- To Expose Spinnaker UI Outside Kubernetes Cluster, Change the service type to either Load Balancer or NodePort
+```bash
+kubectl -n spinnaker edit svc spin-deck
+kubectl -n spinnaker edit svc spin-gate
+```
+- Update config and redeploy
+```bash
+hal config security ui edit --override-base-url "http://<LoadBalancerIP>:9000"
+hal config security api edit --override-base-url "http://<LoadBalancerIP>:8084"
+hal deploy apply
+```
+- If you used NodePort
+```bash
+hal config security ui edit --override-base-url "http://<worker-node-ip>:<nodePort>"
+hal config security api edit --override-base-url "http://worker-node-ip>:<nodePort>"
+hal deploy apply
+```
