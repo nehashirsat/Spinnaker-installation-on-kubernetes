@@ -75,7 +75,7 @@ hal config deploy edit --type distributed --account-name $ACCOUNT
 
 ### Step 12: Add Storage Bucket in Halyard Config.
 ```bash
-hal config storage gcs edit --bucket $BUCKET_NAME --project <PROJECT-NAME> --project your-project --json-path ~/.gcp/key.json
+hal config storage gcs edit --bucket $BUCKET_NAME --project your-project --json-path ~/.gcp/key.json
 hal config storage edit --type gcs
 ```
 ### Step 13: Check Available Spinnaker Versions And Deploy
