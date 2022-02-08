@@ -22,6 +22,17 @@ adduser spinnaker
 echo "spinnaker ALL=(ALL:ALL) NOPASSWD:ALL" > spinnaker && chmod 440 spinnaker && mv spinnaker /etc/sudoers.d/
 su - spinnaker
 ```
+### Step 5: Create An IAM Service Account And It’s Key
+```bash
+gcloud iam service-accounts create spinnaker \
+--display-name "spinnaker" \
+--project your-project
+
+
+gcloud iam service-accounts keys create ~/.gcp/key.json \
+--iam-account spinnaker@your-project.iam.gserviceaccount.com \
+--project "your-project"
+```
 
 ### Step 5: Run the bash script for installation of halyard and kubectl 
 ```bash
@@ -32,7 +43,7 @@ chmod +x halyard_kubectl_installation.sh
 ### Step 6: Create A Storage Bucket
 ```bash
 BUCKET_NAME=spin-hal-bucket-demo
-gsutil mb -l asia-southeast1 -p your-project gs://$BUCKET_NAME/
+gsutil mb -l us-central1 -p cybage-devops gs://$BUCKET_NAME/
 ```
 
 ### Step 7: Connect To Your Kubernetes Cluster On Your Halyard Machine
