@@ -49,6 +49,7 @@ gsutil mb -l us-central1 -p cybage-devops gs://$BUCKET_NAME/
 ### Step 7: Connect To Your Kubernetes Cluster On Your Halyard Machine
 ```bash
 gcloud container clusters get-credentials <CLUSTER-NAME> --zone <ZONE> --project <PROJECT-NAME>
+gsutil iam ch serviceAccount:spinnaker@your-project.iam.gserviceaccount.com:legacyBucketWriter gs://$BUCKET_NAME
 ```
 
 ### Step 9: Create Kubernetes Service Account
