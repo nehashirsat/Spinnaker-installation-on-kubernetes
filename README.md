@@ -34,13 +34,13 @@ gcloud iam service-accounts keys create ~/.gcp/key.json \
 --project "your-project"
 ```
 
-### Step 5: Run the bash script for installation of halyard and kubectl 
+### Step 6: Run the bash script for installation of halyard and kubectl 
 ```bash
 chmod +x halyard_kubectl_installation.sh
 ./halyard_kubectl_installation.sh
 ```
 
-### Step 6: Create A Storage Bucket
+### Step 7: Create A Storage Bucket
 ```bash
 BUCKET_NAME=spin-hal-bucket-demo
 gsutil mb -l us-central1 -p cybage-devops gs://$BUCKET_NAME/
@@ -51,7 +51,7 @@ gsutil mb -l us-central1 -p cybage-devops gs://$BUCKET_NAME/
 gcloud container clusters get-credentials <CLUSTER-NAME> --zone <ZONE> --project <PROJECT-NAME>
 ```
 
-### Step 8: Create Kubernetes Service Account
+### Step 9: Create Kubernetes Service Account
 ```bash
 CONTEXT=$(kubectl config current-context)
 kubectl apply --context $CONTEXT -f https://spinnaker.io/downloads/kubernetes/service-account.yml
@@ -60,25 +60,25 @@ kubectl config set-credentials ${CONTEXT}-token-user --token $TOKEN
 kubectl config set-context $CONTEXT --user ${CONTEXT}-token-user
 ```
 
-### Step 9: Add The Kubernetes Cluster Into Halyard Config
+### Step 10: Add The Kubernetes Cluster Into Halyard Config
 ```bash
 hal config provider kubernetes enable
 hal config provider kubernetes account add kubernetes-cluster-01 --provider-version v2 --context $(kubectl config current-context)
 hal config features edit --artifacts true
 ```
 
-### Step 10: Choose The Kubernetes Cluster in Which You Want To Install Spinnaker.
+### Step 11: Choose The Kubernetes Cluster in Which You Want To Install Spinnaker.
 ```bash
 ACCOUNT=kubernetes-cluster-01
 hal config deploy edit --type distributed --account-name $ACCOUNT
 ```
 
-### Step 11: Add Storage Bucket in Halyard Config.
+### Step 12: Add Storage Bucket in Halyard Config.
 ```bash
-hal config storage gcs edit --bucket $BUCKET_NAME --project <PROJECT-NAME>
+hal config storage gcs edit --bucket $BUCKET_NAME --project <PROJECT-NAME> --project your-project --json-path ~/.gcp/key.json
 hal config storage edit --type gcs
 ```
-### Step 12: Check Available Spinnaker Versions And Deploy
+### Step 13: Check Available Spinnaker Versions And Deploy
 ```bash
 hal version list
 ```
@@ -88,7 +88,7 @@ VERSION=1.24.6
 hal config version edit --version $VERSION
 ```
 
-### Step 13: Deploy Spinnaker
+### Step 14: Deploy Spinnaker
 ```bash
 hal deploy apply
 ```
