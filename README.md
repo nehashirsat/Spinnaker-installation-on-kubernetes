@@ -34,6 +34,11 @@ gcloud iam service-accounts keys create ~/.gcp/key.json \
 --project "your-project"
 ```
 
+
+### Reference
+
+https://www.magalix.com/blog/a-guide-on-the-installation-of-spinnaker-in-your-production-kubernetes-cluster
+
 ### Step 6: Run the bash script for installation of halyard and kubectl 
 ```bash
 chmod +x halyard_kubectl_installation.sh
